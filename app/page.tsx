@@ -1,14 +1,11 @@
 import { ThemeToggle } from "./_theme/ThemeToggle";
+import Navbar from "./_components/Navbar";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground transition-all duration-200">
-      <header className="flex justify-between items-center p-6 border-b border-border bg-card">
-        <h1 className="text-2xl font-bold">PokeStore</h1>
-        <div className="flex items-center space-x-4">
-          <ThemeToggle />
-        </div>
-      </header>
+      <Navbar />
+      
 
       <main className="container mx-auto px-6 py-12">
         <div className="text-center">
