@@ -45,11 +45,11 @@ export default function FilterCatalog({ pokemonsList, onFilter }: { pokemonsList
       {/* Filters Pokemon */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex justify-center gap-2 w-full mb-8 flex-col md:flex-row">
         <div className="w-full">
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Name Pokemon</label>
-          <input type="text" placeholder="Search Pokemon" className="w-full p-2 rounded-md border border-gray-300" {...register("search")} />
+          <label className="block mb-2 text-sm font-medium text-foreground  text-left">Name Pokemon</label>
+          <input type="text" placeholder="Search Pokemon" className="w-full p-2 rounded-md border border-gray-300 bg-background text-foreground" {...register("search")} />
         </div>
         <div className="w-full md:max-w-sm">
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Currency</label>
+          <label className="block mb-2 text-sm font-medium text-foreground text-left">Currency</label>
           <select className="w-full p-2 rounded-md border border-gray-300" {...register("currency")}>
             <option value="all" className="bg-background text-foreground">All</option>
             <option value="USD" className="bg-background text-foreground">USD ($)</option>

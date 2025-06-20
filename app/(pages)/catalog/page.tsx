@@ -16,6 +16,8 @@ import { useCatalogStore } from "@/app/_stores/useCatalogStore";
 export default function Catalog() {
   const { pokemonsCatalog, setPokemonsCatalog } = useCatalogStore();
   const [filteredPokemons, setFilteredPokemons] = useState<TypePokemon[]>([]);
+  const [visibleCount, setVisibleCount] = useState(8);
+  const pokemonsPerPage = 8;
 
   const { data: pokemons } = usePokemons();
   const { data: currencyCoins } = useCurrency();
@@ -26,8 +28,16 @@ export default function Catalog() {
       const pokemonList = generatePokemonList(pokemons, currencyCoins);
       setPokemonsCatalog(pokemonList);
       setFilteredPokemons(pokemonList);
+      setVisibleCount(pokemonsPerPage);
     }
   }, [pokemons, currencyCoins]);
+
+  useEffect(() => {
+    setVisibleCount(pokemonsPerPage);
+  }, [filteredPokemons.length]);
+
+  const currentPokemons = filteredPokemons.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredPokemons.length;
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-all duration-200">
@@ -42,7 +52,7 @@ export default function Catalog() {
 
           {/* Card Pokemon */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredPokemons.length > 0 ? filteredPokemons.map((pokemon: TypePokemon) => {
+            {currentPokemons.length > 0 ? currentPokemons.map((pokemon: TypePokemon) => {
               return (
                 <div key={pokemon.uuid}>
                   <CardPokemon pokemon={pokemon} />
@@ -54,6 +64,15 @@ export default function Catalog() {
               ))
             )}
           </div>
+          {/* Botón See More for Pagination*/}
+          {hasMore && (
+            <button
+              className="mt-8 px-6 py-3 bg-foreground text-background rounded-lg font-bold shadow hover:bg-foreground/80 transition-all duration-200 cursor-pointer"
+              onClick={() => setVisibleCount((prev) => prev + pokemonsPerPage)}
+            >
+              See More
+            </button>
+          )}
         </div>
       </main>
     </div>

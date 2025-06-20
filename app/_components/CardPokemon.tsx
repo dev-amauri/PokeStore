@@ -18,7 +18,7 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
     <div>
       <div className="bg-card p-4 rounded-lg shadow-md">
         <div className="relative w-full h-50 rounded-lg bg-border flex items-center justify-center">
-          <Image src={pokemon.imagePokemon} alt={pokemon.name} fill className="object-contain z-1" />
+          <Image src={pokemon.imagePokemon} alt={pokemon.name} fill className="object-contain z-1" loading="lazy"/>
           <p className="absolute text-[7rem] sm:text-[10rem] text-muted-foreground z-0">{pokemon.numberPokemon <= 9 ? `00${pokemon.numberPokemon}` : pokemon.numberPokemon <= 99 ? `0${pokemon.numberPokemon}` : pokemon.numberPokemon}</p>
           <div className="absolute bottom-0 left-0 w-full h-10 bg-black/50 rounded-b-lg z-2">
             <p className="text-md font-bold text-white ">Nivel: {pokemon.numberPokemon}</p>
