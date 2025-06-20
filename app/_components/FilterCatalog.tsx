@@ -1,12 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
-import CardPokemon from "@/app/_components/CardPokemon";
-import Navbar from "@/app/_components/Navbar";
-
-import { usePokemons } from "@/app/_hooks/usePokemons";
-import { useCurrency } from "@/app/_hooks/useCurrency";
-import { generatePokemonList } from "@/app/_utils/PokemonCurrencyList";
 import { useForm } from "react-hook-form";
 import { TypePokemon } from "@/app/_utils/types";
 
@@ -14,13 +7,10 @@ import { TypePokemon } from "@/app/_utils/types";
 type FormData = {
   search: string;
   currency: string;
-}
+};
 
-export default function FilterCatalog() {
-  const [filterPokemonList, setFilterPokemonList] = useState<TypePokemon[]>([]);
+export default function FilterCatalog({ pokemonsList, onFilter }: { pokemonsList: TypePokemon[]; onFilter: (filtered: TypePokemon[]) => void; }) {
 
-  const { data: pokemons } = usePokemons();
-  const { data: currencyCoins } = useCurrency();
   const { register, handleSubmit, watch } = useForm<FormData>({
     defaultValues: {
       search: "",
@@ -29,35 +19,26 @@ export default function FilterCatalog() {
   });
 
   useEffect(() => {
-    if (pokemons && currencyCoins) {
-      const pokemonList = generatePokemonList(pokemons, currencyCoins);
-      setFilterPokemonList(pokemonList);
-    }
-  }, [pokemons, currencyCoins]);
+    onFilter(pokemonsList);
+  }, [pokemonsList]);
 
+  // Watch the form and filter the pokemons list
   useEffect(() => {
-    if (pokemons && currencyCoins) {
-      const subscription = watch((values) => {
-        onSubmit(values as FormData);
-      });
-      return () => subscription.unsubscribe();
-    }
-  }, [pokemons, currencyCoins]);
+    const subscription = watch((values) => {
+      onSubmit(values as FormData);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, pokemonsList, onFilter]);
 
-  if (!pokemons || !currencyCoins) return null;
-  const pokemonList = generatePokemonList(pokemons, currencyCoins);
-
+  // filter the pokemons list
   const onSubmit = (data: FormData) => {
-    console.log(data);
-    const filteredPokemons = pokemonList.filter((pokemon: TypePokemon) => {
+    const filtered = pokemonsList.filter((pokemon) => {
       const matchesName = pokemon.name.toLowerCase().includes(data.search.toLowerCase());
       const matchesCurrency = data.currency === "all" || pokemon.currencyKey === data.currency;
       return matchesName && matchesCurrency;
     });
-    setFilterPokemonList(filteredPokemons);
+    onFilter(filtered);
   };
-
-
 
   return (
     <>

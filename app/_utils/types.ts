@@ -3,10 +3,9 @@ export type TypePokemon = {
   numberPokemon: number;
   name: string;
   imagePokemon: string;
-  priceRandom: string;
-  priceUSD: string;
-  offert: string;
-  offertUSD: string;
+  price: number;
+  offert: number;
+  priceRandom: number;
   currencyKey: string;
   isPurchased: boolean;
 }
