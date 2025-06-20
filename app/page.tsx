@@ -1,4 +1,10 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "PokeStore",
+  description: "Tu tienda de Pokémon favorita",
+};
 
 export default function Login() {
   return (
