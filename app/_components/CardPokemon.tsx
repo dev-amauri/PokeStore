@@ -1,4 +1,6 @@
 "use client";
+import React,{ useEffect, useState } from "react";
+
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { TypePokemon } from "@/app/_utils/types";
@@ -9,9 +11,11 @@ import { usePurchasedStore } from "@/app/_stores/usePurchasedStore";
 import { useWalletStore } from "@/app/_stores/useWalletStore";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const { addToCart, cart } = useCartStore();
   const { pokemonsCatalog, updatePokemonPurchasedStatus } = useCatalogStore();
   const { isPokemonPurchased, removePokemonPurchased } = usePurchasedStore();
@@ -42,9 +46,17 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
     toast.info("Pokémon reimbursed!");
   }
 
+  // function for logging pokemon number
+  const handleCardClick = () => {
+    router.push(`${pathname}/${pokemon.numberPokemon}`);
+  }
+
   return (
     <div>
-      <div className="bg-card p-4 rounded-lg shadow-md">
+      <div
+        className="bg-card hover:bg-border! p-4 rounded-lg shadow-md transform transition-all duration-300  hover:scale-[1.02] cursor-pointer"
+        onClick={handleCardClick}
+      >
         <div className="relative w-full h-50 rounded-lg bg-border flex items-center justify-center">
           <Image src={pokemon.imagePokemon} alt={pokemon.name} fill className="object-contain z-1" loading="lazy"/>
           <p className="absolute text-[7rem] sm:text-[10rem] text-muted-foreground z-0">{pokemon.numberPokemon <= 9 ? `00${pokemon.numberPokemon}` : pokemon.numberPokemon <= 99 ? `0${pokemon.numberPokemon}` : pokemon.numberPokemon}</p>
@@ -67,7 +79,10 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
           <div className="flex w-full items-center gap-2 justify-end">
             <div className="flex items-center gap-2 justify-end rounded-xl border-2 border-border pl-2">
               <p className="text-lg font-bold text-muted-foreground">{FormatPrice(pokemon.price, "USD")}</p>
-              <button className={`flex items-center justify-center gap-2 bg-red-400/70 rounded-br-lg rounded-tr-lg p-2 cursor-pointer hover:bg-red-400/80 transition-all duration-200`} onClick={() => handleReimbursing(pokemon.uuid)}>
+              <button className={`flex items-center justify-center gap-2 bg-red-400/70 rounded-br-lg rounded-tr-lg p-2 cursor-pointer hover:bg-red-400/80 transition-all duration-200`} onClick={(e) => {
+                e.stopPropagation();
+                handleReimbursing(pokemon.uuid);
+              }}>
                 <Icon icon="mynaui:pokeball-solid" className="w-6 h-6" />
                 <p className="text-normal sm:text-md flex gap-2 break-words"> Refund</p>
               </button>
@@ -78,7 +93,10 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
           <div className="flex w-full items-center gap-2 justify-end">
             <div className="flex items-center gap-2 justify-end rounded-xl border-2 border-border pl-2">
               <p className="text-lg font-bold text-muted-foreground">{FormatPrice(pokemon.price, "USD")}</p>
-              <button className={`flex items-center gap-2 bg-border rounded-br-lg rounded-tr-lg p-2 cursor-pointer hover:bg-border/50 transition-all duration-200`} onClick={() => handleAddToCart(pokemon.uuid)}>
+              <button className={`flex items-center gap-2 bg-border rounded-br-lg rounded-tr-lg p-2 cursor-pointer hover:bg-border/50 transition-all duration-200`} onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart(pokemon.uuid);
+              }}>
                 <Icon icon="fa6-solid:cart-plus" className="w-6 h-6" />
                 <p className="text-normal sm:text-md flex gap-2"> Add to cart</p>
               </button>

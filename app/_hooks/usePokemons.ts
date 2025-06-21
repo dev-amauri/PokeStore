@@ -10,3 +10,11 @@ export const usePokemons = () =>  {
     select: (data) => data.results,
   });
 }
+
+export const usePokemonByID = (id: string) => {
+  return useQuery({
+    queryKey: ["pokemon", id],
+    queryFn: () => api.apiPokemon.getByIDPokemons(id),
+  });
+}
+

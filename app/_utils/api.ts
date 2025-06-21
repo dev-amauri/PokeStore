@@ -7,6 +7,10 @@ export default {
     getAllPokemons: async () => {
       const response = await axiosInstance.get("/pokemon?limit=151");
       return response.data;
+    },
+    getByIDPokemons: async (id: string) => {
+      const response = await axiosInstance.get(`/pokemon/${id}`);
+      return response.data;
     }
   },
   apiCoins:{
