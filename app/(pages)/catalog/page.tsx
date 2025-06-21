@@ -74,7 +74,7 @@ export default function Catalog() {
                   </button>
                 )}
               </>
-            ) : filteredPokemons.length === 0 ? (
+            ) : filteredPokemons.length === 0 && pokemonsCatalog.length > 0 ? (
               // No search results
               <div className="flex flex-col items-center justify-center py-12">
                 <Icon icon="mdi:pokeball" className="text-[10rem] text-gray-500" />
