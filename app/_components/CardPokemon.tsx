@@ -63,13 +63,13 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
         <p className="text-lg text-muted-foreground text-right mb-2">{FormatPrice(pokemon.priceRandom, pokemon.currencyKey)}</p>
 
         {isPurchased ? (
-          // Reimbursing
+          // Refund
           <div className="flex w-full items-center gap-2 justify-end">
             <div className="flex items-center gap-2 justify-end rounded-xl border-2 border-border pl-2">
               <p className="text-lg font-bold text-muted-foreground">{FormatPrice(pokemon.price, "USD")}</p>
               <button className={`flex items-center justify-center gap-2 bg-red-400/70 rounded-br-lg rounded-tr-lg p-2 cursor-pointer hover:bg-red-400/80 transition-all duration-200`} onClick={() => handleReimbursing(pokemon.uuid)}>
                 <Icon icon="mynaui:pokeball-solid" className="w-6 h-6" />
-                <p className="text-normal sm:text-md flex gap-2 break-words"> Reimbursing</p>
+                <p className="text-normal sm:text-md flex gap-2 break-words"> Refund</p>
               </button>
             </div>
           </div>

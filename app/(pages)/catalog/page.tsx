@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
 
 import CardPokemon from "@/app/_components/CardPokemon";
 import Navbar from "@/app/_components/Navbar";
@@ -51,28 +52,43 @@ export default function Catalog() {
           <FilterCatalog pokemonsList={pokemonsCatalog} onFilter={setFilteredPokemons} />
 
           {/* Card Pokemon */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {currentPokemons.length > 0 ? currentPokemons.map((pokemon: TypePokemon) => {
-              return (
-                <div key={pokemon.uuid}>
-                  <CardPokemon pokemon={pokemon} />
+          <div>
+            {currentPokemons.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {currentPokemons.map((pokemon: TypePokemon) => {
+                    return (
+                      <div key={pokemon.uuid}>
+                        <CardPokemon pokemon={pokemon} />
+                      </div>
+                    )
+                  })}
                 </div>
-              )
-            }) : (
-              Array.from({ length: 8 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
+                {/* Botón See More for Pagination*/}
+                {hasMore && (
+                  <button
+                    className="mt-8 px-6 py-3 bg-foreground text-background rounded-lg font-bold shadow hover:bg-foreground/80 transition-all duration-200 cursor-pointer"
+                    onClick={() => setVisibleCount((prev) => prev + pokemonsPerPage)}
+                  >
+                    See More
+                  </button>
+                )}
+              </>
+            ) : filteredPokemons.length === 0 ? (
+              // No search results
+              <div className="flex flex-col items-center justify-center py-12">
+                <Icon icon="mdi:pokeball" className="text-[10rem] text-gray-500" />
+                <p className="text-xl text-gray-500 text-center">No search results</p>
+              </div>
+            ) : (
+              // Skeleton cards
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+              </div>
             )}
           </div>
-          {/* Botón See More for Pagination*/}
-          {hasMore && (
-            <button
-              className="mt-8 px-6 py-3 bg-foreground text-background rounded-lg font-bold shadow hover:bg-foreground/80 transition-all duration-200 cursor-pointer"
-              onClick={() => setVisibleCount((prev) => prev + pokemonsPerPage)}
-            >
-              See More
-            </button>
-          )}
         </div>
       </main>
     </div>
