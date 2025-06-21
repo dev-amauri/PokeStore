@@ -8,12 +8,16 @@ import CardCart from '../CardCart';
 import { Icon } from '@iconify/react';
 import Link from 'next/link';
 import { useWalletStore } from '@/app/_stores/useWalletStore';
+import { usePurchasedStore } from '@/app/_stores/usePurchasedStore';
+import { useCatalogStore } from '@/app/_stores/useCatalogStore';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ModalCart({isOpenModalCart, setIsOpenModalCart}: {isOpenModalCart: boolean, setIsOpenModalCart: (isOpen: boolean) => void}) {
   const { cart, clearCart } = useCartStore();
   const { wallet, removeFunds } = useWalletStore();
+  const { addMultiplePurchasedPokemons } = usePurchasedStore();
+  const { updatePokemonPurchasedStatus } = useCatalogStore();
 
   const CalculateTotal = () => {
     return cart.reduce((acc, pokemon) => acc + pokemon.price, 0);
@@ -24,6 +28,14 @@ export default function ModalCart({isOpenModalCart, setIsOpenModalCart}: {isOpen
 
   const handleBuy =() => {
     removeFunds(total);
+    // add pokemon to purchased list
+    addMultiplePurchasedPokemons(cart);
+
+    // actualize the status of the pokemon purchased in the catalog
+    cart.forEach(pokemon => {
+      updatePokemonPurchasedStatus(pokemon.uuid, true);
+    });
+
     clearCart();
     setIsOpenModalCart(false);
     toast.success("Pokémons bought successfully!");

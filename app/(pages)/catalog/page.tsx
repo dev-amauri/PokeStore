@@ -40,7 +40,7 @@ export default function Catalog() {
   const hasMore = visibleCount < filteredPokemons.length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-all duration-200">
+    <div className="min-h-screen bg-background text-foreground transition-all duration-200 mt-20">
       <Navbar />
 
       <main className="container mx-auto px-6 py-12">
