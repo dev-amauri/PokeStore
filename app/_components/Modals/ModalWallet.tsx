@@ -24,15 +24,15 @@ export default function ModalWallet({isOpenModalWallet, setIsOpenModalWallet}: {
     reset({amount: 0});
   }
 
-  // Gift money to the wallet random between 100 and 1000
+  // Gift money to the wallet random between 20 and 110
   const handleGiftMoneyRandom = () => {
-    addFunds(Math.floor(Math.random() * 1000) + 100);
+    addFunds(Math.floor(Math.random() * 91) + 20);
   }
 
   return (
     <ModalCustom open={isOpenModalWallet} onClose={() => {setIsOpenModalWallet(false); reset({amount: 0})}} title="Add funds to the wallet">
         <div className='flex flex-col gap-4'>
-          <p className='text-md text-gray-500'>Available balance: ${wallet} USD</p>
+          <p className='text-md text-gray-500'>Available balance: ${wallet.toFixed(2)} USD</p>
           {/* Gift random money to the wallet */}
           {wallet <= 0 && (
             <button className='w-full h-full text-md font-medium cursor-pointer rounded-lg bg-blue-400/80 hover:bg-blue-500/90 text-white p-2' onClick={handleGiftMoneyRandom}>

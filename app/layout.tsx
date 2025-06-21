@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./_theme/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +32,7 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
             {children}
+            <ToastContainer autoClose={1000} />
           </ThemeProvider>
         </QueryClientProvider>
       </body>

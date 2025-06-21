@@ -3,13 +3,25 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { TypePokemon } from "@/app/_utils/types";
 import { FormatPrice } from "@/app/_utils/formatNumber";
+import { useCartStore } from "@/app/_stores/useCartStore";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
-
+  const { addToCart, cart, removeFromCart } = useCartStore();
+  
+  // fuction for add to cart
   const handleAddToCart = () => {
-    console.log("Add to cart");
+    const exists = cart.some((p) => p.uuid === pokemon.uuid);
+    if (exists) {
+      toast.warn("This Pokémon is already in the cart!");
+      return;
+    }
+    addToCart(pokemon);
+    toast.success("Pokémon added to cart!");
   }
 
+  // function for reimbursing pokemones
   const handleReimbursing = () => {
     console.log("Reimbursing");
   }
@@ -20,8 +32,8 @@ export default function CardPokemon({ pokemon }: { pokemon: TypePokemon }) {
         <div className="relative w-full h-50 rounded-lg bg-border flex items-center justify-center">
           <Image src={pokemon.imagePokemon} alt={pokemon.name} fill className="object-contain z-1" loading="lazy"/>
           <p className="absolute text-[7rem] sm:text-[10rem] text-muted-foreground z-0">{pokemon.numberPokemon <= 9 ? `00${pokemon.numberPokemon}` : pokemon.numberPokemon <= 99 ? `0${pokemon.numberPokemon}` : pokemon.numberPokemon}</p>
-          <div className="absolute bottom-0 left-0 w-full h-10 bg-black/50 rounded-b-lg z-2">
-            <p className="text-md font-bold text-white ">Nivel: {pokemon.numberPokemon}</p>
+          <div className="absolute bottom-0 left-0 w-full h-10 bg-black/50 rounded-b-lg z-2 flex items-center justify-center">
+            <p className="text-md font-bold text-white ">Level: 1 | PS: 100</p>
           </div>
           {pokemon.isPurchased && (
             <div className="absolute top-[-25] left-[-20] bg-blue-400/70 rounded-lg z-2 p-2">

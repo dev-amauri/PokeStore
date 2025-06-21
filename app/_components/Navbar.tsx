@@ -6,11 +6,15 @@ import Link from 'next/link';
 import { useState } from 'react';
 import ModalWallet from './Modals/ModalWallet';
 import { useWalletStore } from '@/app/_stores/useWalletStore';
+import { useCartStore } from '@/app/_stores/useCartStore';
+import ModalCart from './Modals/ModalCart';
 
 export default function Navbar() {
   const { wallet } = useWalletStore();
+  const { cart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModalWallet, setIsOpenModalWallet] = useState(false);
+  const [isOpenModalCart, setIsOpenModalCart] = useState(false);
 
   return (
     <>
@@ -31,11 +35,12 @@ export default function Navbar() {
               <div className='absolute top-23 left-0 w-full h-auto bg-card flex items-start gap-2 flex-col p-4'>
                 <button className='flex items-center gap-2 p-1 cursor-pointer hover:bg-border w-full h-10 rounded-lg' onClick={() => { setIsOpenModalWallet(true); setIsOpen(false) }}>
                   <Icon icon="streamline-plump:wallet" className="w-8 h-8 border-r-2 border-border pr-2" />
-                  <span className='text-md font-medium pr-2'> ${wallet} USD</span>
+                  <span className='text-md font-medium pr-2'> ${wallet.toFixed(2)} USD</span>
                 </button>
-                <button className='flex items-center gap-2  p-1 cursor-pointer hover:bg-border w-full h-10 rounded-lg'>
+                <button className='flex items-center gap-2  p-1 cursor-pointer hover:bg-border w-full h-10 rounded-lg relative' onClick={() => { setIsOpenModalCart(true); setIsOpen(false) }}>
                   <Icon icon="ion:cart-outline" className="w-7 h-7" />
                   <span className='text-md font-medium pr-2'> Cart</span>
+                  <span className='bg-red-500 text-white rounded-full text-xs w-4 h-4 flex absolute top-0 right-0 justify-center items-center'> {cart.length}</span>
                 </button>
                 <button className='flex items-center gap-2  p-1 cursor-pointer hover:bg-border w-full h-10 rounded-lg'>
                   <Icon icon="qlementine-icons:user-16" className="w-7 h-7" />
@@ -54,10 +59,11 @@ export default function Navbar() {
             <ThemeToggle isMobile={false} />
             <button className='flex items-center gap-2 border-2 border-border rounded-lg p-1 cursor-pointer hover:bg-border' onClick={() => setIsOpenModalWallet(true)}>
               <Icon icon="streamline-plump:wallet" className="w-8 h-8 border-r-2 border-border pr-2" />
-              <span className='text-md font-medium pr-2'> ${wallet} USD</span>
+              <span className='text-md font-medium pr-2'> ${wallet.toFixed(2)} USD</span>
             </button>
-            <button className='cursor-pointer hover:bg-border rounded-[999px] p-2'>
+            <button className='cursor-pointer hover:bg-border rounded-[999px] p-2 relative' onClick={() => setIsOpenModalCart(true)}>
               <Icon icon="ion:cart-outline" className="w-7 h-7" />
+              <span className='bg-red-500 text-white rounded-full text-xs w-4 h-4 flex absolute top-0 right-0 justify-center items-center'> {cart.length}</span>
             </button>
             <button className='cursor-pointer hover:bg-border rounded-[999px] p-2'>
               <Icon icon="qlementine-icons:user-16" className="w-7 h-7" />
@@ -70,6 +76,7 @@ export default function Navbar() {
 
       {/* Modal Wallet */}
       <ModalWallet isOpenModalWallet={isOpenModalWallet} setIsOpenModalWallet={setIsOpenModalWallet} />
+      <ModalCart isOpenModalCart={isOpenModalCart} setIsOpenModalCart={setIsOpenModalCart} />
     </>
   )
 }

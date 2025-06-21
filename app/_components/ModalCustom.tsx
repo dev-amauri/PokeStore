@@ -13,7 +13,7 @@ const ModalCustom: React.FC<ModalCustomProps> = ({ open, onClose, children, titl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 ">
-      <div className="bg-background rounded-lg shadow-lg relative min-w-[300px] max-w-full mx-4">
+      <div className="bg-background rounded-lg shadow-lg relative min-w-[90%] sm:min-w-[300px] max-w-full mx-4">
         <div className="flex flex-row justify-between items-center w-full bg-border p-4 rounded-tl-lg rounded-tr-lg">
         <p className="text-lg font-bold">{title}</p>
         <button

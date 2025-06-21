@@ -12,8 +12,11 @@ export const useWalletStore = create<WalletState>()(
   persist(
     (set) => ({
       wallet: 0,
+      // add funds
       addFunds: (amount: number) => set((state: WalletState) => ({ wallet: state.wallet + amount })),
+      // remove funds
       removeFunds: (amount: number) => set((state: WalletState) => ({ wallet: state.wallet - amount })),
+      // clear wallet
       clearWallet: () => set({ wallet: 0 }),
     }),
 
@@ -22,4 +25,4 @@ export const useWalletStore = create<WalletState>()(
       storage: createJSONStorage(() => localStorage),
     }
   )
-)
+);
