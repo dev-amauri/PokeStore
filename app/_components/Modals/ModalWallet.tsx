@@ -6,9 +6,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useWalletStore } from '@/app/_stores/useWalletStore';
+import { useSound } from 'use-sound';
 
 export default function ModalWallet({isOpenModalWallet, setIsOpenModalWallet}: {isOpenModalWallet: boolean, setIsOpenModalWallet: (isOpen: boolean) => void}) {
   const { wallet, addFunds, clearWallet } = useWalletStore();
+  const [play] = useSound('/sounds/addWallet.mp3', { volume: 0.5 });
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(yup.object().shape({
@@ -35,7 +37,7 @@ export default function ModalWallet({isOpenModalWallet, setIsOpenModalWallet}: {
           <p className='text-md text-gray-500'>Available balance: ${wallet.toFixed(2)} USD</p>
           {/* Gift random money to the wallet */}
           {wallet <= 0 && (
-            <button className='w-full h-full text-md font-medium cursor-pointer rounded-lg bg-blue-400/80 hover:bg-blue-500/90 text-white p-2' onClick={handleGiftMoneyRandom}>
+            <button className='w-full h-full text-md font-medium cursor-pointer rounded-lg bg-blue-400/80 hover:bg-blue-500/90 text-white p-2' onClick={() => {handleGiftMoneyRandom(); play()}}>
               Gift money to the wallet
             </button>
           )}

@@ -12,12 +12,14 @@ import { usePurchasedStore } from '@/app/_stores/usePurchasedStore';
 import { useCatalogStore } from '@/app/_stores/useCatalogStore';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSound } from 'use-sound';
 
 export default function ModalCart({isOpenModalCart, setIsOpenModalCart}: {isOpenModalCart: boolean, setIsOpenModalCart: (isOpen: boolean) => void}) {
   const { cart, clearCart } = useCartStore();
   const { wallet, removeFunds } = useWalletStore();
   const { addMultiplePurchasedPokemons } = usePurchasedStore();
   const { updatePokemonPurchasedStatus } = useCatalogStore();
+  const [play] = useSound('/sounds/buyPokemon.mp3', { volume: 0.5 });
 
   const CalculateTotal = () => {
     return cart.reduce((acc, pokemon) => acc + pokemon.price, 0);
@@ -53,8 +55,8 @@ export default function ModalCart({isOpenModalCart, setIsOpenModalCart}: {isOpen
                 <Icon icon="mdi:pokeball" className='text-[3rem] text-gray-500 absolute top-19' />
               </div>
               <p className='text-md text-gray-500 text-center'>Add pokemons to your cart</p>
-              <Link href="/offers">
-              <button className='bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600 transition-all duration-200'>See offers</button>
+              <Link href="/catalog">
+              <button className='bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600 transition-all duration-200' onClick={() => setIsOpenModalCart(false)}>See catalog</button>
               </Link>
             </div>
           )}
@@ -82,7 +84,7 @@ export default function ModalCart({isOpenModalCart, setIsOpenModalCart}: {isOpen
                     : 'bg-blue-500 text-white cursor-pointer hover:bg-blue-600'
                 }`}
                 disabled={isInsufficientFunds}
-                onClick={handleBuy}
+                onClick={() => {handleBuy(); play()}}
               >
                 Buy
               </button>

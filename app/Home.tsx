@@ -3,8 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 import { ThemeToggle } from './_theme/ThemeToggle';
 import { Icon } from '@iconify/react';
+import { useSound } from 'use-sound';
 
 export default function Home() {
+  const [play] = useSound('/sounds/pikachu.mp3', { volume: 0.5 });
   return (
     <div className="flex items-center justify-center h-full w-full min-h-screen">
       <div className="text-center">
@@ -20,6 +22,7 @@ export default function Home() {
         <Link
           href="/catalog"
           className="inline-block bg-foreground text-background hover:bg-foreground/80 font-semibold py-3 px-6 rounded-lg transition-all duration-200"
+          onClick={() => play()}
         >
           Go to Catalog
         </Link>

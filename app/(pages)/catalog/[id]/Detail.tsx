@@ -8,6 +8,8 @@ import { PokemonDetail } from '@/app/_utils/types';
 import Navbar from '@/app/_components/Navbar';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
+import Loading from '@/app/loading';
+import NotFound from '@/app/not-found';
 
 export default function PokemonDetailPage() {
   const { id } = useParams();
@@ -15,28 +17,13 @@ export default function PokemonDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4">Loading Pokémon...</p>
-        </div>
-      </div>
+      <Loading />
     );
   }
 
   if (error || !pokemon) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-500">Error loading the Pokémon</h1>
-          <p className="mt-2">No pokemon found</p>
-          <Link href="/catalog" >
-            <button className="bg-foreground text-background hover:bg-foreground/80 font-semibold py-3 px-6 rounded-lg transition-all duration-200 mt-4 cursor-pointer">
-              Go to catalog
-            </button>
-          </Link>
-        </div>
-      </div>
+      <NotFound />
     );
   }
 
@@ -45,10 +32,10 @@ export default function PokemonDetailPage() {
   return (
     <div>
       <Navbar />
-    <div className="min-h-screen flex flex-col items-center justify-center mt-27 md:mt-0">
+    <div className="min-h-screen flex flex-col items-center justify-center mt-1 sm:mt-10 md:mt-0 scale-[0.8] sm:scale-100">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-8 flex flex-row items-center justify-between gap-4">
-          <div className="flex flex-row items-center justify-center gap-4">
+        <div className="text-center mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <div className="bg-border rounded-full shadow-lg py-2 px-4">
             <span className="text-2xl font-bold text-foreground">
               #{pokemonData.id.toString().padStart(3, '0')}
